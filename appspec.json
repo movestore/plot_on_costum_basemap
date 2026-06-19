@@ -2,41 +2,47 @@
   "version": "1.2",
   "settings": [
     {
+      "id": "custombm",
+      "name": "Custom background map",
+      "description": "Upload a customized background map as a geotiff file (e.g. `.tif`). The map is expected to be in lon/lat (EPSG:4326)",
+      "type": "USER_FILE"
+    },
+    {
       "id": "check_extent",
       "name": "Quick check of extent & projection",
-      "description": "If enabled, all tracks are plotted on the custom basemap in a single map so you can verify that the extent and projection of the basemap and the tracking data match. When this is enabled all other plotting options below are ignored to speed up the computation.",
+      "description": "Obtain map with all tracks on the custom basemap. This image will contain the supplied map and the tracking data without any changes in the extent. This is useful to check if supplied map and track data overlap as intended before creating all plots. When this option is checked all other plotting options below are ignored.",
       "defaultValue": true,
       "type": "CHECKBOX"
     },
     {
       "id": "plot_option",
-      "name": "What should be plotted",
-      "description": "Choose which maps to produce. Every option produces the overview map ('all_tracks.png': all tracks on one map at the full dataset extent); some options additionally produce one png per track, bundled in a zip. This setting is ignored when 'Quick check of extent & projection' is enabled.",
+      "name": "Choose plot type",
+      "description": "Choose which maps to produce. Every option produces the a map with all tracks",
       "defaultValue": "track_extent",
       "type": "DROPDOWN",
       "options": [
         {
           "value": "track_extent",
-          "displayText": "One map per track, each zoomed to that track's own extent (overview png + zip)"
+          "displayText": "Map per track, zoomed to extent of each track"
         },
         {
           "value": "total_extent",
-          "displayText": "One map per track, all using the full extent of the entire dataset (overview png + zip)"
+          "displayText": "Map per track, extent of dataset"
         },
         {
           "value": "both",
-          "displayText": "One map per track in both variants: own-track extent and full-dataset extent (overview png + two zips)"
+          "displayText": "Map per track, extent of each track & of dataset"
         },
         {
           "value": "all_tracks",
-          "displayText": "Only the overview map of all tracks (png, no per-track maps)"
+          "displayText": "Only the map with all tracks"
         }
       ]
     },
     {
       "id": "plot_geometry",
-      "name": "What to draw for each track",
-      "description": "Choose whether each track is drawn as lines only, or as lines with the individual locations (points) added on top. Lines are built from the tracking data with move2::mt_track_lines().",
+      "name": "Plot as lines with/without points",
+      "description": "Choose whether each track is drawn as lines only, or as lines and points.",
       "defaultValue": "lines_points",
       "type": "DROPDOWN",
       "options": [
@@ -52,52 +58,34 @@
     },
     {
       "id": "mlegend",
-      "name": "Include legend in the overview map",
-      "description": "Whether the overview map ('all_tracks.png', all tracks on one map) should include a legend listing each track_id with its assigned colour. Has no effect on the quick-check overview (which never shows a legend) nor on the per-track maps (which use a single colour and show the track_id as the map title).",
+      "name": "Include legend on map with all tracks",
+      "description": "Each track will be assigned a color, check this box to view the legend",
       "defaultValue": true,
       "type": "CHECKBOX"
     },
     {
       "id": "mycol",
-      "name": "Colour of the per-track maps",
-      "description": "Colour used to draw the tracks in the per-track maps (the maps bundled in the zip). Provide an R colour name (e.g. 'black', 'red', 'darkblue'). The list of recognised colour names is returned by grDevices::colors() (see https://stat.columbia.edu/~tzheng/files/Rcolor.pdf).",
+      "name": "Colour of the tracks in the per-track maps",
+      "description": "Color used to draw the tracks in the per-track maps. Provide an colour name (e.g. 'black', 'red', 'darkblue'). The list of recognised colour names can be found for example here https://r-charts.com/colors/",
       "defaultValue": "black",
       "type": "STRING"
     },
     {
       "id": "width_pl",
       "name": "Map width (mm)",
-      "description": "Width, in millimetres, of the saved maps (overview and per-track maps). The height is derived automatically from the data aspect ratio. The quick-check overview ignores this and uses a fixed A4-landscape size.",
-      "defaultValue": 200,
+      "description": "Width, in millimetres, of the saved maps. The height is derived automatically from the data aspect ratio.",
+      "defaultValue": 297,
       "type": "INTEGER"
-    },
-    {
-      "id": "custombm",
-      "name": "Custom background map (geotiff)",
-      "description": "Upload a customized background map as a geotiff file (e.g. `.tif`/`.geotiff`). The map is expected to be in lon/lat (EPSG:4326); if it carries no/another CRS, EPSG:4326 is assigned (without reprojecting the cells).",
-      "type": "USER_FILE"
     }
   ],
   "dependencies": {
     "R": [
-      {
-        "name": "terra"
-      },
-      {
-        "name": "sf"
-      },
-      {
-        "name": "zip"
-      },
-      {
-        "name": "ggplot2"
-      },
-      {
-        "name": "terrainr"
-      },
-      {
-         "name": "move2"
-      }
+      {"name": "terra"},
+      {"name": "sf"},
+      {"name": "zip"},
+      {"name": "ggplot2"},
+      {"name": "terrainr"},
+      {"name": "move2"}
     ]
   },
   "providedAppFiles": [],
@@ -106,35 +94,21 @@
   },
   "language": "eng",
   "keywords": [
-    "example",
-    "template"
-  ],
+    "basemap",
+    "background map",
+    "personalized map",
+    "custom map"
+    ],
   "people": [
     {
-      "firstName": "Charles",
-      "middleInitials": null,
-      "lastName": "Darwin",
-      "email": "creator@example.com",
-      "roles": [
-        "author",
-        "creator"
-      ],
+      "firstName": "Anne",
+      "middleInitials": "K",
+      "lastName": "Scharf",
+      "email": "ascharf@ab.mpg.de",
+      "roles": ["creator","author"],
       "orcid": null,
-      "affiliation": null,
-      "affiliationRor": null
-    }
-  ],
-  "funding": [
-    {
-      "name": "funder name",
-      "comment": "grant for App"
-    }
-  ],
-  "references": [
-    {
-      "type": "IsDescribedBy",
-      "note": "Darwin, C. 1900. The creation. Journal XY. 1-2",
-      "url": "https://anylink.xyz"
+      "affiliation": "Max-Planck-Institute of Animal Behavior",
+      "affiliationRor": "https://ror.org/026stee22"
     }
   ]
-}
+ }
